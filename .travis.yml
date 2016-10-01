@@ -4,5 +4,23 @@ node_js:
   - "node"
 git:
   depth: 1
-script:
-  - npm test
+env:
+  global:
+  # variable setup on Travis CI
+  #- CF_API=
+  #- CF_USERNAME=
+  #- CF_PASSWORD=
+  #- CF_ORG=
+  #- CF_SPACE=
+before_deploy:
+  # install cf-cli to login into bluemix
+  - wget https://s3.amazonaws.com/go-cli/releases/v6.12.4/cf-cli_amd64.deb -qO temp.deb && sudo dpkg -i temp.deb
+  - rm temp.deb
+  # log into bluemix
+  - cf login -a ${CF_API} -u ${CF_USERNAME} -p ${CF_PASSWORD} -o ${CF_ORG} -s ${CF_SPACE}
+deploy:
+- edge: true
+  provider: script
+  script: cf push travis2bluemix-nodejs -f ./manifest.yml
+  on:
+    branch: master
