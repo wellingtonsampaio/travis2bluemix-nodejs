@@ -1,4 +1,4 @@
-sudo: false
+sudo: true      # requires sudo to install cf-cli
 language: node_js
 node_js:
   - "node"
