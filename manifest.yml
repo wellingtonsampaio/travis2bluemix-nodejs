@@ -1,4 +1,4 @@
 ---
 applications:
 - name: travis2bluemix-nodejs
-  memory: 256MB
+  memory: 128MB
